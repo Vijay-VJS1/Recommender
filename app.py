@@ -11,6 +11,10 @@ movies_list=sorted(movies_list)
 similarity1=pd.read_feather('similarity1_small.feather')
 similarity2=pd.read_feather('similarity2_small.feather')
 ######################
+rows=5
+columns=5
+num_movies=25
+######################
 def recommend(movie,version):
   recom_movies=[]
   recom_poster=[]
@@ -24,7 +28,7 @@ def recommend(movie,version):
   movie_index=df[df['title'].str.lower()==movie.lower()].index[0]
   selected_id=df[df['title'].str.lower()==movie.lower()]['id']
   distance=similarity[str(movie_index)]
-  movies_list=similarity1[str(movie_index)].sort_values(ascending=False)[1:11].index
+  movies_list=similarity1[str(movie_index)].sort_values(ascending=False)[1:num_movies+1].index
   ### Recommender
   for x in movies_list:
     recom_movies.append(df['title'][int(x)])
@@ -43,6 +47,7 @@ def recommend(movie,version):
     else:
       posters.append("https://images.app.goo.gl/uydHH7wNbPbJrM8i8")
     recom_poster.append("https://www.themoviedb.org/t/p/w600_and_h900_bestv2/"+posters[0])
+  print(recom_movies)
   return recom_movies,recom_poster,recom_ratings,recom_id
   ### Popular
 def popular():
@@ -50,7 +55,7 @@ def popular():
   popular_poster=[]
   popular_ratings=[]
   popular_ids=[]
-  popular_list=df.sort_values(by='popularity',ascending=False)[:10].index
+  popular_list=df.sort_values(by='popularity',ascending=False)[:num_movies].index
   i=1
   for y in popular_list:
     popular_movies.append(df['title'][int(y)])
@@ -81,19 +86,20 @@ d2={}
 st_list=list(string.ascii_lowercase)
 ####Popular
 sub_head=st.empty()
-sub_head.subheader("Trending Now")
 pop_names,pop_posters,pop_ratings,pop_ids=popular()
 cols = st.columns(5)
 x=0
-for i in range(5):
-    for row in range(2):
+# for i in range(5):
+#     for row in range(rows):
+for row in range(rows):
+    for i in range(columns):
       with cols[i]:
         d1[st_list[x]]=st.empty()
         d2[st_list[x]]=st.empty()
-        link=f"https://www.themoviedb.org/movie/{pop_ids[i+row*5]}"
-        html = f"<a href='{link}'><img src='{pop_posters[i+row*5]}' style='width:130px;height:200px;'></a>"
+        link=f"https://www.themoviedb.org/movie/{pop_ids[x]}"
+        html = f"<a href='{link}'><img src='{pop_posters[x]}' style='width:130px;height:200px;'></a>"
         d1[st_list[x]].markdown(html, unsafe_allow_html=True)
-        rating = f'<p style="font-family:Georgia; color:Blue; font-size: 20px;font-weight: bold;">Rating:{round(pop_ratings[i+row*5],1)}</p>'
+        rating = f'<p style="font-family:Georgia; color:Blue; font-size: 20px;font-weight: bold;">Rating:{round(pop_ratings[x],1)}</p>'
         d2[st_list[x]].markdown(rating, unsafe_allow_html=True)
         x+=1
 ####Recommender
@@ -102,21 +108,22 @@ if search_similar:
   sub_head.subheader("Similiar Movies")
   link = "https://www.citypng.com/public/uploads/preview/loading-load-icon-transparent-png-11639609114lctjenyas8.png"
   html = f"<a href='{link}'><img src='{link}' style='width:130px;height:200px;'></a>"
-  for i in range(5):
-    for row in range(2):
+  for row in range(rows):
+    for i in range(columns):
       with cols[i]:
          d1[st_list[x]].markdown(html, unsafe_allow_html=True)
-         rating = f'<p style="font-family:Georgia; color:Blue; font-size: 20px;font-weight: bold;">Rating:{""}</p>'
+         rating = f'<p style="font-family:Georgia; color:Blue; font-size: 20px;font-weight: bold;">Loading{""}</p>'
          d2[st_list[x]].markdown(rating, unsafe_allow_html=True)
          x+=1
   x=0
+  names, posters, ratings, ids = recommend(selected_movie, 1)
   for i in range(5):
-    for row in range(2):
+    for row in range(rows):
       with cols[i]:
-         names,posters,ratings,ids=recommend(selected_movie,1)
-         link=f"https://www.themoviedb.org/movie/{ids[i+row*5]}"
-         html = f"<a href='{link}'><img src='{posters[i+row*5]}' style='width:130px;height:200px;'></a>"
+         link=f"https://www.themoviedb.org/movie/{ids[x]}"
+         html = f"<a href='{link}'><img src='{posters[x]}' style='width:130px;height:200px;'></a>"
          d1[st_list[x]].markdown(html, unsafe_allow_html=True)
-         rating = f'<p style="font-family:Georgia; color:Blue; font-size: 20px;font-weight: bold;">Rating:{round(ratings[i+row*5],1)}</p>'
+         rating = f'<p style="font-family:Georgia; color:Blue; font-size: 20px;font-weight: bold;">Rating:{round(ratings[x],1)}</p>'
          d2[st_list[x]].markdown(rating, unsafe_allow_html=True)
          x+=1
+
