@@ -1,5 +1,5 @@
 import streamlit as st 
-import pickle,numpy as np
+import numpy as np
 import requests,string
 import pandas as pd
 key='00d9d014c90f00239dc8341d1a1bf045'
