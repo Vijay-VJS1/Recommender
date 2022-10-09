@@ -1,15 +1,31 @@
-import streamlit as st 
+import streamlit as st
 import numpy as np
 import requests,string
 import pandas as pd
 key='00d9d014c90f00239dc8341d1a1bf045'
 ##################
-df=pd.read_feather("movie_deploy_small.feather")
+st.title("Movie Recommendations")
+##################
+size='medium'
+col1,col2=st.columns([5,1])
+d3={}
+sizes=['small','medium','large']
+with col2:
+    original_title = '<p style="font-family:Courier; color:White; font-size: 10px;">1</p>'
+    st.markdown(original_title, unsafe_allow_html=True)
+    with st.expander('Size'):
+        for x in range(3):
+            d3[sizes[x]]=st.button(sizes[x])
+for x in range(3):
+    if d3[sizes[x]]:
+        size=sizes[x]
+##################
+df=pd.read_feather(f"movie_deploy_{size}.feather")
 movies_list=df['title'].values
 movies_list=np.append(movies_list,"")
 movies_list=sorted(movies_list)
-similarity1=pd.read_feather('similarity1_small.feather')
-similarity2=pd.read_feather('similarity2_small.feather')
+similarity1=pd.read_feather(f'similarity1_{size}.feather')
+similarity2=pd.read_feather(f'similarity2_{size}.feather')
 ######################
 rows=5
 columns=5
@@ -76,16 +92,18 @@ def popular():
 
 #####
 #####App
-st.title("Movie Recommedations")
-selected_movie=st.selectbox("Search Here",
-movies_list
-)
+with col1:
+  selected_movie = st.selectbox("",
+                                movies_list
+                                )
 search_similar=st.button('Search Similar')
-d1={}
-d2={}
+photo_dict={}
+rating_dict={}
+movies_dict={}
 st_list=list(string.ascii_lowercase)
 ####Popular
 sub_head=st.empty()
+sub_head.subheader('Trending Now')
 pop_names,pop_posters,pop_ratings,pop_ids=popular()
 cols = st.columns(5)
 x=0
@@ -94,13 +112,16 @@ x=0
 for row in range(rows):
     for i in range(columns):
       with cols[i]:
-        d1[st_list[x]]=st.empty()
-        d2[st_list[x]]=st.empty()
+        photo_dict[st_list[x]]=st.empty()
+        rating_dict[st_list[x]]=st.empty()
+        movies_dict[st_list[x]]=st.empty()
         link=f"https://www.themoviedb.org/movie/{pop_ids[x]}"
         html = f"<a href='{link}'><img src='{pop_posters[x]}' style='width:130px;height:200px;'></a>"
-        d1[st_list[x]].markdown(html, unsafe_allow_html=True)
-        rating = f'<p style="font-family:Georgia; color:Blue; font-size: 20px;font-weight: bold;">Rating:{round(pop_ratings[x],1)}</p>'
-        d2[st_list[x]].markdown(rating, unsafe_allow_html=True)
+        photo_dict[st_list[x]].markdown(html, unsafe_allow_html=True)
+        name = f'<p style="font-family:Courier; color:Black; font-size: 15px;font-weight: bold;">{pop_names[x]}</p>'
+        rating = f'<p style="font-family:Georgia; color:Black; font-size: 15px;font-weight: bold;">Rating: {round(pop_ratings[x],1)}</p>'
+        # movies_dict[st_list[x]].markdown(name, unsafe_allow_html=True)
+        rating_dict[st_list[x]].markdown(rating, unsafe_allow_html=True)
         x+=1
 ####Recommender
 x=0
@@ -111,9 +132,9 @@ if search_similar:
   for row in range(rows):
     for i in range(columns):
       with cols[i]:
-         d1[st_list[x]].markdown(html, unsafe_allow_html=True)
+         photo_dict[st_list[x]].markdown(html, unsafe_allow_html=True)
          rating = f'<p style="font-family:Georgia; color:Blue; font-size: 20px;font-weight: bold;">Loading{""}</p>'
-         d2[st_list[x]].markdown(rating, unsafe_allow_html=True)
+         rating_dict[st_list[x]].markdown(rating, unsafe_allow_html=True)
          x+=1
   x=0
   names, posters, ratings, ids = recommend(selected_movie, 1)
@@ -122,8 +143,8 @@ if search_similar:
       with cols[i]:
          link=f"https://www.themoviedb.org/movie/{ids[x]}"
          html = f"<a href='{link}'><img src='{posters[x]}' style='width:130px;height:200px;'></a>"
-         d1[st_list[x]].markdown(html, unsafe_allow_html=True)
+         photo_dict[st_list[x]].markdown(html, unsafe_allow_html=True)
          rating = f'<p style="font-family:Georgia; color:Blue; font-size: 20px;font-weight: bold;">Rating:{round(ratings[x],1)}</p>'
-         d2[st_list[x]].markdown(rating, unsafe_allow_html=True)
+         rating_dict[st_list[x]].markdown(rating, unsafe_allow_html=True)
          x+=1
 
