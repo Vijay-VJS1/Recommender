@@ -4,7 +4,7 @@ import requests,string
 import pandas as pd
 key='00d9d014c90f00239dc8341d1a1bf045'
 ##################
-st.title("Movie Recommendations")
+st.title("Movie Recommendations2")
 ##################
 size='medium'
 col1,col2=st.columns([5,1])
