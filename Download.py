@@ -2,13 +2,15 @@ import pandas as pd
 import streamlit as st
 import os
 from filter import *
+@st.cache
+def load_model():
+#     st.markdown("HA")
+    data=pd.read_feather(f"{os.getcwd()}/stream_tmdb_full_data1.feather")
+    return data
 def Download():
     st.title('Download Data With Filter')
-    @st.cache
-    def load_model(size):
-	  return pd.read_feather(f"{os.getcwd()}/stream_tmdb_full_data1.feather")
 
-    df=load_model(size)
+    df=load_model()
     import streamlit.components.v1 as components
     from pandas.api.types import (
         is_categorical_dtype,
