@@ -4,8 +4,11 @@ import os
 from filter import *
 def Download():
     st.title('Download Data With Filter')
-    df=pd.read_feather(f"{os.getcwd()}/stream_tmdb_full_data1.feather")
+    @st.cache
+    def load_model(size):
+	  return pd.read_feather(f"{os.getcwd()}/stream_tmdb_full_data1.feather")
 
+    df=load_model(size)
     import streamlit.components.v1 as components
     from pandas.api.types import (
         is_categorical_dtype,
