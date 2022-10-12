@@ -4,15 +4,11 @@ import requests,string,os
 import pandas as pd
 st.title("Movie Recommendations")
 @st.cache
-def load_model(url):
-    st.title("HA")
+def load_model(size):
+    st.markdown("HA")
+    data=pd.read_feather(f"{os.getcwd()}/movie_deploy_{size}.feather")
     return data
 load_model("h")
-def load_model(size):
- return pd.read_feather(f"{os.getcwd()}/movie_deploy_{size}.feather")
-def load_model(url):
-    st.title("HA")
-    return data
 def Recommender():
     key = st.secrets["TMDB_KEY"]
     size='medium'
