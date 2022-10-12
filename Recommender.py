@@ -2,6 +2,9 @@ import streamlit as st
 import numpy as np
 import requests,string,os
 import pandas as pd
+@st.cache
+def load_model(size):
+	return pd.read_feather(f"{os.getcwd()}/movie_deploy_{size}.feather")
 def Recommender():
     st.title("Movie Recommendations1")
     key = st.secrets["TMDB_KEY"]
@@ -19,9 +22,6 @@ def Recommender():
         if d3[sizes[x]]:
             size=sizes[x]
     ##################
-    @st.cache
-    def load_model(size):
-	return pd.read_feather(f"{os.getcwd()}/movie_deploy_{size}.feather")
 
     df=load_model(size)
     movies_list=df['title'].values
