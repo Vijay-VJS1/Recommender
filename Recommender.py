@@ -2,8 +2,6 @@ import streamlit as st
 import numpy as np
 import requests,string,os
 import pandas as pd
-[db_credentials]
-key = "my_username"
 def Recommender():
     st.title("Movie Recommendations1")
     key = secrets.TMDB_KEY
