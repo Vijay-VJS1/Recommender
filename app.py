@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 from Recommender import *
 from Download import *
 ##################
@@ -7,7 +8,7 @@ st.set_page_config(page_title='👻👻🚗🌫️‍', page_icon='👻',
                    menu_items=None)
 ##################
 page = st.sidebar.selectbox('Select page',['Recommender','Download Data'])
-st.title(pwd)
+st.title(os.getcwd())
 if page=='Recommender':
     Recommender()
 elif page=='Download Data':
