@@ -19,7 +19,7 @@ def Recommender():
         if d3[sizes[x]]:
             size=sizes[x]
     ##################
-    df=pd.read_feather(f"movie_deploy_{size}.feather")
+    df=pd.read_feather(f"{os.getcwd()}/movie_deploy_{size}.feather")
     movies_list=df['title'].values
     movies_list=np.append(movies_list,"")
     movies_list=sorted(movies_list)
