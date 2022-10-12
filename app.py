@@ -9,7 +9,8 @@ st.set_page_config(page_title='👻👻🚗🌫️‍', page_icon='👻',
 ##################
 page = st.sidebar.selectbox('Select page',['Recommender','Download Data'])
 st.markdown(os.listdir(os.getcwd()))
-st.markdown(os.listdir(f"{os.getcwd()}/pycache"))
+# x=pd.read_feather('movie_deploy.feather")
+# st.markdown(os.listdir(f"{os.getcwd()}/pycache"))
 
 if page=='Recommender':
     Recommender()
