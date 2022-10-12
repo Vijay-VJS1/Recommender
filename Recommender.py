@@ -2,11 +2,11 @@ import streamlit as st
 import numpy as np
 import requests,string,os
 import pandas as pd
+st.title("Movie Recommendations")
 @st.cache
 def load_model(size):
     return pd.read_feather(f"{os.getcwd()}/movie_deploy_{size}.feather")
 def Recommender():
-    st.title("Movie Recommendations1")
     key = st.secrets["TMDB_KEY"]
     size='medium'
     col1,col2=st.columns([5,1])
