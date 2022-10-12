@@ -8,7 +8,7 @@ def load_model(size):
 #     st.markdown("HA")
     data=pd.read_feather(f"{os.getcwd()}/movie_deploy_{size}.feather")
     return data
-load_model("h")
+
 def Recommender():
     key = st.secrets["TMDB_KEY"]
     size='medium'
