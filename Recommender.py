@@ -4,7 +4,7 @@ import requests,string,os
 import pandas as pd
 def Recommender():
     st.title("Movie Recommendations1")
-    key = secrets.TMDB_KEY
+    key = st.secrets["TMDB_KEY"]
     size='medium'
     col1,col2=st.columns([5,1])
     d3={}
