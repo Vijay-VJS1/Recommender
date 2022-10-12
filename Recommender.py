@@ -5,7 +5,7 @@ import pandas as pd
 st.title("Movie Recommendations")
 @st.cache
 def load_model(size):
-    return pd.read_feather(f"{os.getcwd()}/movie_deploy_{size}.feather")
+ return pd.read_feather(f"{os.getcwd()}/movie_deploy_{size}.feather")
 def Recommender():
     key = st.secrets["TMDB_KEY"]
     size='medium'
