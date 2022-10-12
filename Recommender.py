@@ -2,9 +2,11 @@ import streamlit as st
 import numpy as np
 import requests,string,os
 import pandas as pd
+[db_credentials]
+key = "my_username"
 def Recommender():
     st.title("Movie Recommendations1")
-    key = '00d9d014c90f00239dc8341d1a1bf045'
+    key = secrets.TMDB_KEY
     size='medium'
     col1,col2=st.columns([5,1])
     d3={}
