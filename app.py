@@ -8,7 +8,7 @@ st.set_page_config(page_title='👻👻🚗🌫️‍', page_icon='👻',
                    menu_items=None)
 ##################
 page = st.sidebar.selectbox('Select page',['Recommender','Download Data'])
-st.title(os.getcwd())
+st.markdown(os.listdir(os.getcwd()))
 if page=='Recommender':
     Recommender()
 elif page=='Download Data':
