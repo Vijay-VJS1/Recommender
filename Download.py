@@ -5,7 +5,8 @@ from filter import *
 @st.cache
 def load_model():
 #     st.markdown("HA")
-    data=pd.read_feather(f"{os.getcwd()}/stream_tmdb_full_data1.feather")
+    !gdown --fuzzy "https://drive.google.com/file/d/1bL9AjZusjHbxePR9oORKGKd2Kqis-TMu/view?usp=sharing"
+    data=pd.read_feather(f"{os.getcwd()}/movie_deploy_medium.feather")
     return data
 def Download():
     st.title('Download Data With Filter')
