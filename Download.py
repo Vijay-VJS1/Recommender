@@ -30,7 +30,7 @@ def Download():
             ]]
 
     filtered_df =filter_dataframe(df)
-    st.dataframe(filtered_df.sample(5000))
+    st.dataframe(filtered_df[:5000])
     to_csv = filtered_df.to_csv()
     st.download_button(label='📥 Download Current Result',
                                 data=to_csv,
