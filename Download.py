@@ -5,8 +5,9 @@ from filter import *
 @st.cache
 def load_model():
 #     st.markdown("HA")
-    !gdown --fuzzy "https://drive.google.com/file/d/1bL9AjZusjHbxePR9oORKGKd2Kqis-TMu/view?usp=sharing"
-    data=pd.read_feather(f"{os.getcwd()}/movie_deploy_medium.feather")
+    data_url=st.secrets["MOVIE_DEPLOY"]
+    url='https://drive.google.com/uc?id=' + data_url.split('/')[-2]
+    data = pd.read_feather(url)
     return data
 def Download():
     st.title('Download Data With Filter')
