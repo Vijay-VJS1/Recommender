@@ -6,7 +6,10 @@ st.title("Movie Recommendations")
 @st.cache
 def load_model(size):
 #     st.markdown("HA")
-    data=pd.read_feather(f"{os.getcwd()}/movie_deploy_{size}.feather")
+    data_url=st.secrets["DATA_URL"]
+    output = f"{size}.feather"
+    gdown.download(data_url, output, quiet=False,fuzzy=True)
+    data=pd.read_feather(output)
     return data
 
 def Recommender():
